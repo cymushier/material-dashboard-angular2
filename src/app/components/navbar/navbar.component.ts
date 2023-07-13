@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,6 +16,10 @@ export class NavbarComponent implements OnInit {
     private sidebarVisible: boolean;
     @Input()
     public color?: string;
+    @Input()
+    public sidebarBackground: string = "./assets/img/sidebar-4.jpg";
+    @ViewChild("navbar", { static: true })
+    private _navbar: HTMLDivElement;
 
     constructor(location: Location,  private element: ElementRef, private router: Router) {
       this.location = location;
@@ -124,4 +128,11 @@ export class NavbarComponent implements OnInit {
       }
       return 'Dashboard';
     }
+
+    isMobile() {
+        if (this._navbar.clientWidth > 991) {
+            return false;
+        }
+        return true;
+    };
 }

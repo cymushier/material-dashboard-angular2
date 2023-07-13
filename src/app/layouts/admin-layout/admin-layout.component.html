@@ -1,10 +1,10 @@
 <div #wrapper class="wrapper">
     <div #sidebar [attr.data-color]="color" class="sidebar" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
         <app-sidebar></app-sidebar>
-        <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
+        <div class="sidebar-background" style="background-image: url({{sidebarBackground}})"></div>
     </div>
     <div class="main-panel">
-        <app-navbar [color]="color"></app-navbar>
+        <app-navbar [color]="color" [sidebarBackground]="sidebarBackground"></app-navbar>
         <router-outlet></router-outlet>
         <div *ngIf="isMaps('maps')">
             <app-footer></app-footer>
@@ -20,11 +20,11 @@
                 <li class="adjustments-line">
                     <a href="javascript:void(0)" class="switch-trigger active-color">
                         <div class="ml-auto mr-auto">
-                            <span class="badge filter badge-purple" (click)="color = 'purple'"></span>
-                            <span class="badge filter badge-azure" (click)="color = 'azure'"></span>
-                            <span class="badge filter badge-green" (click)="color = 'green'"></span>
-                            <span class="badge filter badge-orange" (click)="color = 'orange'"></span>
-                            <span class="badge filter badge-danger active" (click)="color = 'danger'"></span>
+                            <span class="badge filter badge-purple" [class.active]="color === 'purple'" (click)="color = 'purple'"></span>
+                            <span class="badge filter badge-azure" [class.active]="color === 'azure'" (click)="color = 'azure'"></span>
+                            <span class="badge filter badge-green" [class.active]="color === 'green'" (click)="color = 'green'"></span>
+                            <span class="badge filter badge-orange" [class.active]="color === 'orange'" (click)="color = 'orange'"></span>
+                            <span class="badge filter badge-danger" [class.active]="color === 'danger'" (click)="color = 'danger'"></span>
                         </div>
                         <div class="clearfix"></div>
                     <div class="ripple-container"></div></a>
