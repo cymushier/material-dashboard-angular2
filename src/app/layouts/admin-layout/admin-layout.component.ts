@@ -10,10 +10,15 @@ import { filter, Subscription } from 'rxjs';
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.scss']
 })
-export class AdminLayoutComponent implements OnInit {
+export class AdminLayoutComponent implements OnInit, AfterViewInit {
   private _router: Subscription;
   private lastPoppedUrl: string;
   private yScrollStack: number[] = [];
+  @ViewChild("wrapper", {static: true})
+  private _wrapper: HTMLDivElement;
+  @ViewChild("pluginSettings", {static: true})
+  private _pluginSettings: HTMLDivElement;
+  public color: string = "danger";
 
   constructor( public location: Location, private router: Router) {}
 
@@ -54,47 +59,21 @@ export class AdminLayoutComponent implements OnInit {
           ps = new PerfectScrollbar(elemSidebar);
       }
 
-      const window_width = $(window).width();
       let $sidebar = $('.sidebar');
       let $sidebar_responsive = $('body > .navbar-collapse');
       let $sidebar_img_container = $sidebar.find('.sidebar-background');
 
 
-      if(window_width > 767){
-          if($('.fixed-plugin .dropdown').hasClass('show-dropdown')){
-              $('.fixed-plugin .dropdown').addClass('open');
+      if(this._wrapper.clientWidth > 767){
+          if(this._pluginSettings.classList.contains('show-dropdown')){
+              this._pluginSettings.classList.add('open');
           }
 
       }
 
-      $('.fixed-plugin a').click(function(event){
-        // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-          if($(this).hasClass('switch-trigger')){
-              if(event.stopPropagation){
-                  event.stopPropagation();
-              }
-              else if(window.event){
-                 window.event.cancelBubble = true;
-              }
-          }
-      });
-
       $('.fixed-plugin .badge').click(function(){
-          let $full_page_background = $('.full-page-background');
-
-
           $(this).siblings().removeClass('active');
           $(this).addClass('active');
-
-          var new_color = $(this).data('color');
-
-          if($sidebar.length !== 0){
-              $sidebar.attr('data-color', new_color);
-          }
-
-          if($sidebar_responsive.length != 0){
-              $sidebar_responsive.attr('data-color',new_color);
-          }
       });
 
       $('.fixed-plugin .img-holder').click(function(){
@@ -126,6 +105,7 @@ export class AdminLayoutComponent implements OnInit {
           }
       });
   }
+
   ngAfterViewInit() {
       this.runOnRouteChange();
   }
